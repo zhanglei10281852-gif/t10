@@ -38,9 +38,8 @@
         <a-card title="月度补贴汇总">
           <template #extra>
             <div>
-              <a-date-picker
+              <a-month-picker
                 v-model:value="selectedMonth"
-                mode="month"
                 format="YYYY年MM月"
                 :allow-clear="false"
                 style="margin-right: 12px"

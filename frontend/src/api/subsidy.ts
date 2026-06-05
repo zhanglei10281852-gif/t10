@@ -1,4 +1,5 @@
 import request from "@/utils/request";
+import axios from "axios";
 
 export interface SubsidySummaryItem {
   elderlyId: string;
@@ -52,12 +53,33 @@ export function getCategoryStats(params?: { month?: string }) {
   });
 }
 
-export function exportSubsidyCsv(month?: string) {
+export async function exportSubsidyCsv(month?: string) {
   const token = localStorage.getItem("token") || "";
   const params = month ? `?month=${month}` : "";
   const url = `/api/subsidy/export-csv${params}`;
-  const link = document.createElement("a");
-  link.href = url;
-  link.target = "_blank";
-  link.click();
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob",
+    });
+
+    const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    const fileName = month
+      ? `subsidy-summary-${month}.csv`
+      : "subsidy-summary.csv";
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error("导出CSV失败:", error);
+    throw error;
+  }
 }

@@ -567,7 +567,9 @@ async function handleCancel(record: OrderItem) {
 onMounted(() => {
   loadData()
   loadCanteens()
-  loadElderly()
+  if (canCreateOrder.value) {
+    loadElderly()
+  }
 })
 </script>
 

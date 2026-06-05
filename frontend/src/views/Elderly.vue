@@ -98,8 +98,6 @@
         ref="formRef"
         :model="formData"
         layout="vertical"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 18 }"
       >
         <a-row :gutter="16">
           <a-col :span="12">
@@ -122,10 +120,11 @@
           </a-col>
         </a-row>
         <a-row :gutter="16">
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item
               label="年龄"
               name="age"
+              class="form-item-no-wrap"
               :rules="[{ required: true, message: '请输入年龄' }]"
             >
               <a-input-number
@@ -136,10 +135,11 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="6">
             <a-form-item
               label="性别"
               name="gender"
+              class="form-item-no-wrap"
               :rules="[{ required: true, message: '请选择性别' }]"
             >
               <a-select v-model:value="formData.gender" placeholder="请选择">
@@ -148,10 +148,11 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <a-col :span="12">
             <a-form-item
               label="联系电话"
               name="phone"
+              class="form-item-no-wrap"
               :rules="[{ required: true, message: '请输入联系电话' }]"
             >
               <a-input v-model:value="formData.phone" placeholder="请输入联系电话" />
@@ -403,5 +404,9 @@ onMounted(() => {
 
 .page-header {
   margin-bottom: 16px;
+}
+
+:deep(.form-item-no-wrap .ant-form-item-label > label) {
+  white-space: nowrap;
 }
 </style>

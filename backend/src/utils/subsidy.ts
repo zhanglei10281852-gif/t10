@@ -1,4 +1,4 @@
-import { IElderly, SubsidyCategory } from '../models/Elderly';
+import { IElderly, SubsidyCategory } from "../models/Elderly";
 
 export const MEAL_PRICES: Record<string, number> = {
   A: 12,
@@ -25,7 +25,7 @@ export interface SubsidyCalculation {
 
 export function calculateSubsidy(
   elderly: IElderly,
-  mealPrice: number
+  mealPrice: number,
 ): SubsidyCalculation {
   let baseSubsidy = SUBSIDY_RATES[elderly.subsidyCategory];
   let seniorSubsidy = 0;
@@ -50,15 +50,19 @@ export function calculateSubsidy(
   };
 }
 
+let orderCounter = 0;
+
 export function generateOrderNo(): string {
+  orderCounter++;
   const now = new Date();
-  const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
-  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-  return `ORD${dateStr}${random}`;
+  const dateStr = now.toISOString().slice(0, 10).replace(/-/g, "");
+  const timeStr = now.getTime().toString().slice(-6);
+  const counterStr = orderCounter.toString().padStart(6, "0");
+  return `ORD${dateStr}${timeStr}${counterStr}`;
 }
 
 export function getMonthKey(date: Date): string {
   const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
   return `${year}-${month}`;
 }
